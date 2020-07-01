@@ -36,7 +36,7 @@ let nc=  await message.author.send("I can't speak there... Give me right perms i
   };
   if(cmd.channel!=="*"&&cmd.channel!==message.channel.type) return;
   if(message.member&&!message.member.hasPermission(cmd.perms)) return message.reply("Not enuf permissions for command");
-  if(cmd.cooldown&&cd.get(message.author.id+cmd.name)>=parseInt(cmd.cooldown.split("/")[0])) return message.react("");//Its a stop sign
+  if(cmd.cooldown&&cd.get(message.author.id+cmd.name)>=parseInt(cmd.cooldown.split("/")[0])) return message.react("🛑");//Its a stop sign...edit apple retard.
   if(cmd.cooldown){cd.set(message.author.id+cmd.name,cd.get(message.author.id+cmd.name)+1||1);
   setTimeout(
   ()=>cd.set(message.author.id+cmd.name,cd.get(message.author.id+cmd.name)-1),
