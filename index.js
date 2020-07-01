@@ -27,7 +27,7 @@ client.on('message', async message => {
   if(cmd.ownerOnly&&message.author.id!==owner) return;
   if(message.member&&!message.channel.permissionsFor(message.member).has("SEND_MESSAGES")){
 let nc=  await message.author.send("I can't speak there... Give me right perms if you can tysm.")
-  message.channel=nc;
+  message.channel=nc.channel;
   message.member=null;
   message.guild=null;
   message.reply=message.channel.send
