@@ -5,10 +5,10 @@ const { prefix, token, owner } = require('./config.json');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cd= new Discord.Collection();
-const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
+	const command = require(`./Commands/${file}`);
 	client.commands.set(command.name, command);
 }
 
