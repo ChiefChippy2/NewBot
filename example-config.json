@@ -1,0 +1,9 @@
+{/*Example of what config.json should look like.*/
+owner:"507547693233602591",
+token:"Nj18eieoe.94jcmso.wowlepmcjslcppwpcorc",
+prefix:"Newbot"
+/* note : prefix can be an array of prefixes, and accepts mentions in form of <@id>*/
+
+
+
+}

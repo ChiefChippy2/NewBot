@@ -1,7 +1,9 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token, owner } = require('./config.json');
-
+client.prefix=Array.isArray(prefix)?prefix:[prefix.toString()];
+client.token=token;
+client.owner=owner;
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cd= new Discord.Collection();
@@ -10,6 +12,17 @@ const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const command = require(`./Commands/${file}`);
 	client.commands.set(command.name, command);
+	if(command.aliases){
+	if(Array.isArray(command.aliases)
+	 for(const al of command.aliases){
+	 client.commands.set(al,command)
+	 
+	 };
+	else client.command.set(command.aliases.toString(),command)
+	
+	
+	
+	 }
 }
 
 client.once('ready', () => {
@@ -17,13 +30,14 @@ client.once('ready', () => {
 });
 
 client.on('message', async message => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
+	if (!prefix.some(p=>message.content.startsWith(p)) || message.author.bot) return;
 
 	if (!client.commands.has(message.content.slice(prefix.length).split(/ +/)[0])) return;
 
 	try {
 	const cmd=	client.commands.get(command)
   if(cmd.depreciated) return;
+  if(cmd.guildOnly&&!message.guild) return;
   if(cmd.ownerOnly&&message.author.id!==owner) return;
   if(message.member&&!message.channel.permissionsFor(message.member).has("SEND_MESSAGES")){
 let nc=  await message.author.send("I can't speak there... Give me right perms if you can tysm.")
@@ -34,7 +48,8 @@ let nc=  await message.author.send("I can't speak there... Give me right perms i
   
   
   };
-  if(cmd.channel!=="*"&&cmd.channel!==message.channel.type) return;
+  if(cmd.channel!=="*"&&cmd.channel!==message.channel.type) return; 
+  // Kinda redundant but ok
   if(message.member&&!message.member.hasPermission(cmd.perms)) return message.reply("Not enuf permissions for command");
   if(cmd.cooldown&&cd.get(message.author.id+cmd.name)>=parseInt(cmd.cooldown.split("/")[0])) return message.react("🛑");//Its a stop sign...edit apple retard.
   if(cmd.cooldown){cd.set(message.author.id+cmd.name,cd.get(message.author.id+cmd.name)+1||1);
@@ -51,5 +66,10 @@ let nc=  await message.author.send("I can't speak there... Give me right perms i
 		message.reply('there was an error trying to execute that command!');
 	}
 });
+client.lm=new Discord.Collection()
+client.on("messageDelete",m=>{
+if(m.author.bot||!m.guild) return;
+client.lm.set(m.guild.id,client.lm.get(m.guild.id).set(m.id,m))
 
+})
 client.login(token);

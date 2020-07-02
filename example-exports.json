@@ -1,0 +1,16 @@
+{
+/* Example of what a module exports should look like*/
+
+name:"name of command",
+description:"Description of command",
+aliases:["alias1","alias2"],
+usage:"How to use this command. [] for optional arguments; <> for mandatory commands. "
+cooldown:"<amount of commands allowed> / <per second>",
+channel:"Where users can use this command; * for all channel.",
+/* if only you should be able to use this */
+ownerOnly:true,
+/* if command is reserved to guilds */
+guildOnly:false,
+permissions:8/*Permission Resolvable ( array of flags or bitfield ) that the author is required to have to execute this.*/
+execute(msg,args,client){}
+}
