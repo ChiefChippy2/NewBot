@@ -58,8 +58,8 @@ this.timeStamp=new Date().getTime()
 }
 
 args[1]=args.slice(1).join(" ")
-if(!args[1]) return msg.reply("Please provide a math statement. Usage : "+client.prefix+this.usage)
-if(args[1].length>100) return msg.reply("Too long statement.")
+if(!args[1]) return msg.reply("Please provide a math statement. Usage : "+client.prefix+this.usage).then(m=>m.delete({timeout:15000}))
+if(args[1].length>100) return msg.reply("Too long statement.").then(m=>m.delete({timeout:5000}))
 /*Code Sanitation - don't want people executing random stuff */
 args[1]=args[1].replace(/[\(\[{]/g,"(")
 .replace(/[\)\]}/g, ")")
@@ -67,13 +67,13 @@ args[1]=args[1].replace(/[\(\[{]/g,"(")
 .replace(/\|([0-9\.])+\|/g,(a,b)=>"abs("+b+")");
 /*replaced []{} with ()., ^ to ** for power, and finally |x| to abs(x)*/
 let allowedChars="abcdefghijklmnopqrstuvwxyz1234567890+-*/^%.(),"
-if(allowedChars.search(new RegExp("^["+allowedChars+"]","i"))!==-1) return msg.reply("Illegal Characters Found!");
+if(allowedChars.search(new RegExp("^["+allowedChars+"]","i"))!==-1) return msg.reply("⚠️Illegal Characters Found!").then(m=>m.delete({timeout:10000}));
 try{
 let a = eval(args[1].replace(/[a-z]+/g,(func)=>{
 if(mE[func]) func=mE[func];
-if(!MoreMath[func]) return msg.channel.send("Unknown property / method : `"+func+"`.\n If you want to see a list of all available preoperties / method, react with a 📃")
+if(!MoreMath[func]) return msg.channel.send("Unknown property / method : `"+func+"`.\n If you want to see a list of all available preoperties / method, react with a 📃").then(m=>m.delete({timeout:20000}))
 .then(m=>m.react("📃"))
-.then(r=>listMethods(r.message))
+.then(r=>listMethods(r.message,msg.author.id))
 
 return "MoreMath."+func
 
@@ -82,10 +82,11 @@ return "MoreMath."+func
 }))
 return msg.channel.send("Result : ```"+a+"```.")
 }catch(e){
-msg.channel.send("Error whilst interpreting.")
+msg.channel.send("Error whilst interpreting.").then(m=>m.delete({timeout:7000}))
 
 }
-function listMethods(message){
+function listMethods(message,a){
+try{await message.awaitReactions((r,u)=>r.emoji.name==="📃"&&u.id===a,{time:19700,errors:["time"],max:1})
 let keys=Object.keys(lis)
 
 message.channel.send(new Discord.MessageEmbed().setTitle("List of Methods / Properties available for calc")
@@ -97,6 +98,12 @@ message.channel.send(new Discord.MessageEmbed().setTitle("List of Methods / Prop
 .addField("\u200B",keys.slice(keys.length/3*2),true)
 .addField("Tip : ","To see what a certain method/property does, do `"+client.prefix+"helpcalc <method/property>`")
 )
+
+}
+
+}catch(e){
+//time up
+
 
 }
 }

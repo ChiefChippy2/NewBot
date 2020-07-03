@@ -24,7 +24,7 @@ return msg.channel.send(new Discord.MessageEmbed().setTitle("List of Methods / P
 )
 
 }
-if(!l[args[1]) message.reply("Can't find that property / method. Make sure the case is correct :). To see a whole list of methods or properties, do `/helpcalc`.").then(m=>m.delete({timeout:5000})
+if(!l[args[1]) message.reply("Can't find that property / method. Make sure the case is correct :). To see a whole list of methods or properties, do `/helpcalc`.").then(m=>m.delete({timeout:5000}))
 msg.reply(new MessageEmbed().setTitle(args[1])
 .setDescription(l[args[1]])
 .setColor("RANDOM")
