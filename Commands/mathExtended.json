@@ -1,8 +1,11 @@
 {
 "rnd":"random",
-"squareRoot":"sqrt",
+"squareroot":"sqrt",
 "rand":"random",
-"absolute":"abs"
+"absolute":"abs",
+"roundup":"ceil",
+"rounddown":"floor",
+"power":"pow"
 
 
 
