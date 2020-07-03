@@ -1,9 +1,10 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token, owner } = require('./config.json');
-client.prefix=Array.isArray(prefix)?prefix:[prefix.toString()];
+client.prefix=prefix;
 client.token=token;
 client.owner=owner;
+client.dprefix=Array.isArray(prefix)?prefix[0]:prefix
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cd= new Discord.Collection();
@@ -31,8 +32,10 @@ client.once('ready', () => {
 
 client.on('message', async message => {
 	if (!prefix.some(p=>message.content.startsWith(p)) || message.author.bot) return;
-
-	if (!client.commands.has(message.content.slice(prefix.length).split(/ +/)[0])) return;
+//identify the prefix
+let cp;
+prefix.forEach(a=>if(message.content.startsWith(a)){cp=a})
+	if (!client.commands.has(message.content.slice(cp.length)).split(/ +/)[0])) return;
 
 	try {
 	const cmd=	client.commands.get(command)
@@ -70,6 +73,15 @@ client.lm=new Discord.Collection()
 client.on("messageDelete",m=>{
 if(m.author.bot||!m.guild) return;
 client.lm.set(m.guild.id,client.lm.get(m.guild.id).set(m.id,m))
+
+});
+client.on("guildCreate",async g=>{
+//Send something nice 
+if(Array.isArray(prefix)) let m="My prefixes are "+prefix.map(x=>"`"+x+"`").join(", ");
+else let m="My prefix is "+prefix
+(g.systemChannel||await g.channels.fetch(g.systemChannelID)).send("Hi! Thank you for inviting me to your guild! "+m).then(ms=>ms.react("🎊"))
+
+
 
 })
 client.login(token);

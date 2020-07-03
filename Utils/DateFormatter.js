@@ -18,7 +18,7 @@ if(s<1) break;
 return s
 }
 this.format=()=>{
-return `${this.getMonths()}/${this.getDate()}/${this.getYears()}, at ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()} (UTC${this.getTimezoneOffset()/-60})`
+return `${this.getDay()}, ${this.getMonths()}/${this.getDate()}/${this.getFullYears()}, at ${this.getHours()}:${this.getMinutes()}:${this.getSeconds()} (UTC${this.getTimezoneOffset()/-60})`
 
 }
 

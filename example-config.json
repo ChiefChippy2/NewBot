@@ -2,7 +2,10 @@
 owner:"507547693233602591",
 token:"Nj18eieoe.94jcmso.wowlepmcjslcppwpcorc",
 prefix:"Newbot"
-/* note : prefix can be an array of prefixes, and accepts mentions in form of <@id>*/
+/* 
+note : prefix can be an array of prefixes, and accepts mentions in form of <@id>
+The 1st prefix in the array will be the default prefix.
+*/
 
 
 

@@ -58,7 +58,7 @@ this.timeStamp=new Date().getTime()
 }
 
 args[1]=args.slice(1).join(" ")
-if(!args[1]) return msg.reply("Please provide a math statement. Usage : "+client.prefix+this.usage).then(m=>m.delete({timeout:15000}))
+if(!args[1]) return msg.reply("Please provide a math statement. Usage : "+client.dprefix+this.usage).then(m=>m.delete({timeout:15000}))
 if(args[1].length>100) return msg.reply("Too long statement.").then(m=>m.delete({timeout:5000}))
 /*Code Sanitation - don't want people executing random stuff */
 args[1]=args[1].replace(/[\(\[{]/g,"(")
@@ -96,7 +96,7 @@ message.channel.send(new Discord.MessageEmbed().setTitle("List of Methods / Prop
 .addField("Methods/Properties :",keys.slice(0,keys.length/3),true)
 .addField("\u200B",keys.slice(keys.length/3,key.length/3*2),true)
 .addField("\u200B",keys.slice(keys.length/3*2),true)
-.addField("Tip : ","To see what a certain method/property does, do `"+client.prefix+"helpcalc <method/property>`")
+.addField("Tip : ","To see what a certain method/property does, do `"+client.dprefix+"helpcalc <method/property>`")
 )
 
 }
